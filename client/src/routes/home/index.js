@@ -1,10 +1,11 @@
 import React from 'react';
+import LeafletMap from '../../components/LeafletMap';
 
-// import { logout } from "../../auth";
-
-const Home = () => (
-  // TODO: use logout when user logged in
-  <>Gaivota Test</>
-);
-
-export default Home;
+export default function Home() {
+  return (
+    <>
+      Gaivota Test
+      <LeafletMap />
+    </>
+  );
+}
