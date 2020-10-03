@@ -8,6 +8,7 @@ const User = require('./model/User');
 const { PORT, JWT_PW } = process.env;
 
 const mongoose = require('./config/mongoose');
+
 const app = express();
 
 mongoose.connect();
@@ -55,7 +56,8 @@ app.get('/', (req, res) => {
 });
 
 app.listen(PORT || 5000, () => {
-  console.warn(`App is running at http://localhost:${PORT}`);
+  const { warn } = console;
+  warn(`App is running at http://localhost:${PORT}`);
 });
 
 module.exports = app;

@@ -13,14 +13,14 @@ module.exports = {
         useFindAndModify: false,
       });
 
-      log('Mongo is connected in 27017')
+      log('Mongo is connected in 27017');
 
       if (USER_TEST) {
         const [name, email, password] = USER_TEST.split(/\s*,\s*/g);
         await User.deleteMany({ email });
         await User.create({ name, email, password });
       }
-    } catch(e) {
+    } catch (e) {
       log('Connection error:', e.message);
     }
   },
