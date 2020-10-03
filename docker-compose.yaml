@@ -14,7 +14,7 @@ services:
       - "8081:5000"
     volumes:
       - ./server:/home/node/app
-    command:  yarn dev
+    command:  npm run dev
 
   mongo:
     image: mongo

@@ -2,14 +2,14 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
+const User = require('./model/User');
 
 const { PORT, JWT_PW } = process.env;
 
-const mongo = require('../config/mongo');
-
+const mongoose = require('./config/mongoose');
 const app = express();
 
-mongo.connectToServer();
+mongoose.connect();
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -24,15 +24,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
-    const db = mongo.getDb();
-    const user = await db.collection('user').findOne({ email, password });
+    const user = await User.findOne({ email, password });
 
     if (!user) {
       throw new Error('Login error: email or password is invalid');
     }
 
-    const token = jwt.sign(user, JWT_PW);
-    res.status(200).send({ userData: user, token });
+    const token = jwt.sign(user.toJSON(), JWT_PW);
+    res.status(200).send({ user, token });
   } catch (e) {
     res.status(401).send({ error: e.message });
   }
