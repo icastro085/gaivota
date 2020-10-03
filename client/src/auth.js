@@ -11,7 +11,10 @@ import serverURI from './serverURI';
  * @returns {Promise<Response>} Fetch response
  */
 const __requestServer = async ({
-  method, url, headers, body,
+  method,
+  url,
+  headers,
+  body,
 }) => {
   try {
     const response = await fetch(serverURI + url, {
@@ -23,14 +26,17 @@ const __requestServer = async ({
       },
       body: body ? JSON.stringify(body) : undefined,
     });
+
     if (response.ok && response.status === 200) {
       if (headers && headers.ResponseType === 'blob') {
-        return Promise.resolve(response.blob());
+        return response.blob();
       }
-      return Promise.resolve(response.json());
+
+      return response.json();
     } if (response.status === 204) {
-      return Promise.resolve([]);
+      return [];
     }
+
     return Promise.reject(response);
   } catch (error) {
     return Promise.reject(error);
@@ -48,7 +54,7 @@ export const isAuthenticated = async () => {
     if (token) {
       try {
         const userData = await __requestServer({ method: 'GET', url: 'auth' });
-        return Promise.resolve(userData);
+        return userData;
       } catch (e) {
         localStorage.removeItem('token');
         return Promise.reject();
@@ -68,27 +74,31 @@ export const isAuthenticated = async () => {
  * @returns {Promise<Object>} User data
  */
 export const authenticate = async (email, password) => {
-  if (email && password) {
-    try {
-      const data = await __requestServer({
-        method: 'POST',
-        url: 'login',
-        body: {
-          email,
-          password,
-        },
-      });
-      const { token, userData } = data;
-      if (token) {
-        localStorage.setItem('token', token);
-        return Promise.resolve(userData);
-      }
-    } catch (err) {
-      return Promise.reject(err);
+  try {
+    if (!email || !password) {
+      throw new Error('Email or Password is empty');
     }
-  }
 
-  return Promise.reject();
+    const data = await __requestServer({
+      method: 'POST',
+      url: 'login',
+      body: {
+        email,
+        password,
+      },
+    });
+
+    const { token, user } = data;
+
+    if (token) {
+      localStorage.setItem('token', token);
+      return user;
+    }
+
+    return null;
+  } catch (e) {
+    throw new Error(`Error: ${e.statusText}`);
+  }
 };
 
 /**

@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
-import { withRouter } from 'react-router-dom';
-import { PropTypes } from 'prop-types';
+import { useHistory } from 'react-router-dom';
 import { authenticate } from '../../auth';
 
-const Login = (props) => {
-  const { history } = props;
+const Login = () => {
+  const history = useHistory();
   const [loginForm, setLoginForm] = useState({
     email: '',
     password: '',
   });
+
+  const [isErrorLogin, setIsErrorLogin] = useState(false);
 
   /**
    * Handle the input change and changes the form state
@@ -28,28 +29,44 @@ const Login = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     e.stopPropagation();
+
     const { email, password } = loginForm;
+
     try {
+      setIsErrorLogin(false);
+
       // Here you can store the userData in any way
       const userData = await authenticate(email, password);
       console.log(userData);
-      history.push('/app/home');
+      if (userData) {
+        history.push('/app/home');
+      } else {
+        throw new Error('Invalid login');
+      }
     } catch (error) {
-      console.error(error);
+      setIsErrorLogin(true);
+      console.error(error.message);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="login-form" onSubmit={handleSubmit}>
+      <h2>Login</h2>
+
+      <p className={`error ${isErrorLogin ? '' : 'hidden'}`}>
+        Login error: email or password is invalid
+      </p>
+
       <input
         name="email"
         type="input"
         onChange={handleChange('email')}
         value={loginForm.email}
-        placeholder="admin@gaivota.ai" />
+        placeholder="Email - ex.:admin@gaivota.ai" />
       <input
         name="password"
         type="password"
+        placeholder="Password"
         onChange={handleChange('password')}
         value={loginForm.password}
         autoComplete="off" />
@@ -58,8 +75,4 @@ const Login = (props) => {
   );
 };
 
-Login.propTypes = {
-  history: PropTypes.objectOf(Object).isRequired,
-};
-
-export default withRouter(Login);
+export default Login;
