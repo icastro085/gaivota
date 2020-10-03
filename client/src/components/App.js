@@ -7,6 +7,8 @@ import {
   useLocation,
 } from 'react-router-dom';
 import { isAuthenticated } from '../auth';
+
+import Header from './Header';
 import Home from '../routes/home';
 import Login from '../routes/login';
 
@@ -41,15 +43,14 @@ const App = () => {
   return (
     <Router>
       <div className="app">
-        <header className="app-header">
-          <img src="logo192.png" alt="Gaivota Sistemas Inteligentes" />
-          Gaivota Sistemas Inteligentes
-        </header>
-        <Switch>
-          <Route exact path="/home" component={Home} />
-          <Route exact path="/login" component={Login} />
-          <Redirect from="/" to="/home" />;
-        </Switch>
+        <Header />
+        <div className="container">
+          <Switch>
+            <Route exact path="/home" component={Home} />
+            <Route exact path="/login" component={Login} />
+            <Redirect from="/" to="/home" />;
+          </Switch>
+        </div>
       </div>
     </Router>
   );
