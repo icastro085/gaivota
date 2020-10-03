@@ -22,18 +22,31 @@ app.use(bodyParser.urlencoded({ extended: true }));
  * @return {String} token
  */
 app.post('/login', async (req, res) => {
-  const { email, password } = req.body;
-  const db = mongo.getDb();
-  const user = await db.collection('user').findOne({ email, password });
-  const token = jwt.sign(user, JWT_PW);
-  res.status(200).send({ userData: user, token });
+  try {
+    const { email, password } = req.body;
+    const db = mongo.getDb();
+    const user = await db.collection('user').findOne({ email, password });
+
+    if (!user) {
+      throw new Error('Login error: email or password is invalid');
+    }
+
+    const token = jwt.sign(user, JWT_PW);
+    res.status(200).send({ userData: user, token });
+  } catch (e) {
+    res.status(401).send({ error: e.message });
+  }
 });
 
 app.get('/auth', (req, res) => {
-  const authorization = req.header('Authorization') || '';
-  const [, token] = authorization.split(' ');
-  const ok = jwt.verify(token, JWT_PW);
-  res.status(200).send(ok);
+  try {
+    const authorization = req.header('Authorization') || '';
+    const [, token] = authorization.split(' ');
+    const ok = jwt.verify(token, JWT_PW);
+    res.status(200).send(ok);
+  } catch (e) {
+    res.status(500).send({ error: e.message });
+  }
 });
 
 app.get('/', (req, res) => {
