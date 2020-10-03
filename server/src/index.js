@@ -3,15 +3,13 @@ const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
 
-require('dotenv').config();
-
 const { PORT, JWT_PW } = process.env;
 
 const mongo = require('../config/mongo');
 
 const app = express();
 
-// mongo.connectToServer();
+mongo.connectToServer();
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -32,7 +30,8 @@ app.post('/login', async (req, res) => {
 });
 
 app.get('/auth', (req, res) => {
-  const [, token] = (req.header('Authorization') || '').split(' ');
+  const authorization = req.header('Authorization') || '';
+  const [, token] = authorization.split(' ');
   const ok = jwt.verify(token, JWT_PW);
   res.status(200).send(ok);
 });
