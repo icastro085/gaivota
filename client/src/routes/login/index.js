@@ -51,10 +51,8 @@ const Login = () => {
 
   return (
     <form className="login-form" onSubmit={handleSubmit}>
-      <h2>Login</h2>
-
       <p className={`error ${isErrorLogin ? '' : 'hidden'}`}>
-        Login error: email or password is invalid
+        Erro de autenticação: email ou senha inválido
       </p>
 
       <input
@@ -66,11 +64,11 @@ const Login = () => {
       <input
         name="password"
         type="password"
-        placeholder="Password"
+        placeholder="Senha"
         onChange={handleChange('password')}
         value={loginForm.password}
         autoComplete="off" />
-      <button type="submit">Login</button>
+      <button type="submit">Autenticar</button>
     </form>
   );
 };

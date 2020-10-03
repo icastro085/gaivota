@@ -40,8 +40,11 @@ const App = () => {
 
   return (
     <Router>
-      <div className="App">
-        <header className="App-header">&nbsp;</header>
+      <div className="app">
+        <header className="app-header">
+          <img src="logo192.png" alt="Gaivota Sistemas Inteligentes" />
+          Gaivota Sistemas Inteligentes
+        </header>
         <Switch>
           <Route exact path="/home" component={Home} />
           <Route exact path="/login" component={Login} />

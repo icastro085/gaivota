@@ -19,11 +19,13 @@
   }
 
   button {
+    color: #fff;
     padding: 10px;
     font-size: 22px;
-    border: 1px solid #CCC;
+    border: 1px solid $color1;
     border-radius: 5px;
     cursor: pointer;
     outline: none;
+    background-color: $color1;
   }
 }
