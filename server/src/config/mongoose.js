@@ -6,18 +6,22 @@ const { log } = console;
 
 module.exports = {
   async connect() {
-    await mongoose.connect('mongodb://0.0.0.0:27017/gaivota-test', {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useFindAndModify: false,
-    });
+    try {
+      await mongoose.connect('mongodb://mongo:27017/gaivota-test', {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useFindAndModify: false,
+      });
 
-    log('Mongo is connected in 27017')
+      log('Mongo is connected in 27017')
 
-    if (USER_TEST) {
-      const [name, email, password] = USER_TEST.split(/\s*,\s*/g);
-      await User.deleteMany({ email });
-      await User.create({ name, email, password });
+      if (USER_TEST) {
+        const [name, email, password] = USER_TEST.split(/\s*,\s*/g);
+        await User.deleteMany({ email });
+        await User.create({ name, email, password });
+      }
+    } catch(e) {
+      log('Connection error:', e.message);
     }
   },
 };

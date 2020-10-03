@@ -7,14 +7,14 @@ services:
   server:
     build:
       context: ./server
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.development
     environment:
       - PORT=5000
     ports:
-      - "8081:5000"
+      - "5000:5000"
     volumes:
       - ./server:/home/node/app
-    command:  npm run dev
+    command: npm run dev
 
   mongo:
     image: mongo

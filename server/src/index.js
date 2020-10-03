@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
+const morgan = require('morgan');
 const User = require('./model/User');
 
 const { PORT, JWT_PW } = process.env;
@@ -14,6 +15,7 @@ mongoose.connect();
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(morgan('combined'));
 
 /**
  * Login route
