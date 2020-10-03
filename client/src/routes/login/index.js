@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import { withRouter } from "react-router-dom";
-import { authenticate } from "../../auth";
-import { PropTypes } from "prop-types";
+import React, { useState } from 'react';
+import { withRouter } from 'react-router-dom';
+import { PropTypes } from 'prop-types';
+import { authenticate } from '../../auth';
 
-const Login = props => {
+const Login = (props) => {
   const { history } = props;
   const [loginForm, setLoginForm] = useState({
-    email: "",
-    password: ""
+    email: '',
+    password: '',
   });
 
   /**
@@ -16,7 +16,7 @@ const Login = props => {
    * @param {String} key - Form field key
    * @returns {Function} On change event handler
    */
-  const handleChange = key => ({ target }) => {
+  const handleChange = (key) => ({ target }) => {
     setLoginForm({ ...loginForm, [key]: target.value });
   };
 
@@ -25,7 +25,7 @@ const Login = props => {
    * @function handleSubmit
    * @param {Event} e - Submit event
    */
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     e.stopPropagation();
     const { email, password } = loginForm;
@@ -33,9 +33,9 @@ const Login = props => {
       // Here you can store the userData in any way
       const userData = await authenticate(email, password);
       console.log(userData);
-      history.push("/app/home");
-    } catch (e) {
-      console.error(e);
+      history.push('/app/home');
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -44,24 +44,22 @@ const Login = props => {
       <input
         name="email"
         type="input"
-        onChange={handleChange("email")}
+        onChange={handleChange('email')}
         value={loginForm.email}
-        placeholder="admin@gaivota.ai"
-      />
+        placeholder="admin@gaivota.ai" />
       <input
         name="password"
         type="password"
-        onChange={handleChange("password")}
+        onChange={handleChange('password')}
         value={loginForm.password}
-        autoComplete="off"
-      />
+        autoComplete="off" />
       <button type="submit">Login</button>
     </form>
   );
 };
 
 Login.propTypes = {
-  history: PropTypes.object
+  history: PropTypes.objectOf(Object).isRequired,
 };
 
 export default withRouter(Login);

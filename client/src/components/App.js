@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { Route, Redirect, withRouter } from "react-router-dom";
-import { isAuthenticated } from "../auth";
-import Home from "../routes/home/";
-import Login from "../routes/login/";
-import { PropTypes } from "prop-types";
+import React, { useState, useEffect } from 'react';
+import { Route, Redirect, withRouter } from 'react-router-dom';
+import { PropTypes } from 'prop-types';
+import { isAuthenticated } from '../auth';
+import Home from '../routes/home';
+import Login from '../routes/login';
 
-const App = props => {
+const App = (props) => {
   const { location, match } = props;
   const [logged, setLogged] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -29,15 +29,16 @@ const App = props => {
     authUser();
   }, []);
 
-  if (loading) return null;
+  if (loading) {
+    return null;
+  }
 
-  const isRoot =
-    location.pathname === "" ||
-    location.pathname === "/" ||
-    location.pathname === "/app" ||
-    location.pathname === "/app/";
+  const isRoot = location.pathname === ''
+    || location.pathname === '/'
+    || location.pathname === '/app'
+    || location.pathname === '/app/';
 
-  if (!logged && location.pathname.indexOf("login") === -1) {
+  if (!logged && location.pathname.indexOf('login') === -1) {
     return <Redirect to="/login" />;
   }
 
@@ -56,8 +57,8 @@ const App = props => {
 };
 
 App.propTypes = {
-  location: PropTypes.object,
-  match: PropTypes.object
+  location: PropTypes.objectOf(Object).isRequired,
+  match: PropTypes.objectOf(Object).isRequired,
 };
 
 export default withRouter(App);

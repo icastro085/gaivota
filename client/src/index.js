@@ -1,27 +1,28 @@
-import React from "react";
-import { render } from "react-dom";
-import { AppContainer } from "react-hot-loader";
-import Root from "./components/Root";
-import * as serviceWorker from "./serviceWorker";
-import "./styles/index.css";
+import React from 'react';
+import { render } from 'react-dom';
+import { AppContainer } from 'react-hot-loader';
+import Root from './components/Root';
+import * as serviceWorker from './serviceWorker';
+import './styles/index.css';
 
-const root = document.getElementById("root");
+const root = document.getElementById('root');
 
 render(
   <AppContainer>
     <Root />
   </AppContainer>,
-  root
+  root,
 );
 
 if (module.hot) {
-  module.hot.accept("./components/Root", () => {
-    const NewRoot = require("./components/Root").default;
+  module.hot.accept('./components/Root', () => {
+    // eslint-disable-next-line global-require
+    const NewRoot = require('./components/Root').default;
     render(
       <AppContainer>
         <NewRoot />
       </AppContainer>,
-      root
+      root,
     );
   });
 }

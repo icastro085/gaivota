@@ -2,7 +2,7 @@
 const {
   override,
   useEslintRc
-} = require("customize-cra");
+} = require('customize-cra');
 
 module.exports = {
   webpack: override(

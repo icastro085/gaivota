@@ -1,37 +1,29 @@
 {
-    "parser": "babel-eslint",
-    "extends": [
-        "eslint:recommended",
-        "plugin:prettier/recommended",
-        "plugin:react/recommended"
-    ],
-    "settings": {
-        "react": {
-            "version": "detect"
-        }
-    },
-    "parserOptions": {
-        "ecmaVersion": 2018,
-        "sourceType": "module",
-        "ecmaFeatures": {
-            "jsx": true,
-            "modules": true
-        }
-    },
-    "env": {
-        "browser": true,
-        "es6": true,
-        "node": true
-    },
-    "plugins": [
-        "prettier",
-        "react",
-        "react-hooks"
-    ],
-    "rules": {
-        "prettier/prettier": "error",
-        "no-debugger": 0,
-        "no-console": 0,
-        "quotes": ["error", "double"]
-    }
+  "parser": "babel-eslint",
+  "extends": [
+    "airbnb",
+    "airbnb/hooks"
+  ],
+  "rules": {
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "import/prefer-default-export": 0,
+    "react/prop-types": 0,
+    "react/jsx-one-expression-per-line": 0,
+    "jsx-a11y/click-events-have-key-events": 0,
+    "jsx-a11y/no-noninteractive-element-interactions": 0,
+    "jsx-a11y/label-has-associated-control": 0,
+    "react-hooks/exhaustive-deps": 0,
+    "radix": 0,
+    "no-underscore-dangle": 0,
+    "jsx-a11y/anchor-is-valid": 0,
+    "react/jsx-closing-bracket-location": [1, "after-props"],
+    "no-nested-ternary": 0
+  },
+  "globals": {
+    "document": true,
+    "window": true,
+    "navigator": true,
+    "fetch": true,
+    "localStorage": true
+  }
 }
