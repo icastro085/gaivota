@@ -24,6 +24,7 @@
     "window": true,
     "navigator": true,
     "fetch": true,
-    "localStorage": true
+    "localStorage": true,
+    "FileReader": true
   }
 }

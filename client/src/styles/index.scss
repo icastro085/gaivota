@@ -2,6 +2,15 @@ $color1: #428DE0;
 $color2: #0266B7;
 $color3: #00358F;
 
+html, body {
+  margin: 0;
+  padding: 0;
+
+  * {
+    box-sizing: border-box;
+  }
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -16,20 +25,12 @@ code {
     monospace;
 }
 
-.hidden {
-  visibility: hidden;
-}
+$max-columns: 12;
+$padding-base: 10px;
 
-.error {
-  color: #dc3545!important;
-}
-
-.container {
-  max-width: 1020px;
-  margin: 0 auto;
-  padding: 10px;
-}
-
+@import "structures";
 @import "header";
+@import "form";
 @import "login";
 @import "leaflet";
+@import "farm";

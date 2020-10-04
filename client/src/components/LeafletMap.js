@@ -27,7 +27,9 @@ export default function LeafletMap() {
       ],
     };
 
-    L.geoJSON(geojsonFeature).addTo(mymap);
+    const geo = L.geoJSON(geojsonFeature).addTo(mymap);
+
+    geo.bindPopup('I am a geo.');
   }, []);
 
   return (

@@ -11,6 +11,7 @@ import { isAuthenticated } from '../auth';
 import Header from './Header';
 import Home from '../routes/home';
 import Login from '../routes/login';
+import Farms from '../routes/farms';
 
 const App = () => {
   const location = useLocation();
@@ -48,6 +49,7 @@ const App = () => {
           <Switch>
             <Route exact path="/home" component={Home} />
             <Route exact path="/login" component={Login} />
+            <Route exact path="/farms" component={Farms} />
             <Redirect from="/" to="/home" />;
           </Switch>
         </div>
