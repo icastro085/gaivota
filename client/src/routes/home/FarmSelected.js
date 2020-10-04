@@ -11,10 +11,10 @@ export default function FarmSelected({
   } = {},
 }) {
   return (
-    <table>
+    <table className="farm-details">
       <tbody>
         <tr>
-          <td>Fazenda</td><td>{name}</td>
+          <td>Nome</td><td>{name}</td>
         </tr>
         <tr>
           <td>Cutura</td><td>{culture}</td>
