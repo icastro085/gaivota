@@ -1,6 +1,11 @@
 $color1: #428DE0;
 $color2: #0266B7;
 $color3: #00358F;
+$color4: #f2f2f2;
+$color5: #999;
+$color6: #ccc;
+$max-columns: 12;
+$padding-base: 10px;
 
 html, body {
   margin: 0;
@@ -25,12 +30,11 @@ code {
     monospace;
 }
 
-$max-columns: 12;
-$padding-base: 10px;
-
 @import "structures";
 @import "header";
 @import "form";
+@import "select";
 @import "login";
 @import "leaflet";
 @import "farm";
+@import "map-home";
