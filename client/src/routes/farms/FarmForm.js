@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import FarmFormTable from './FarmFormTable';
-import loadCsv from '../../helpers/loadCsv';
+import { loadCsv, parseFramToObject } from '../../helpers';
+import api from '../../facades/api';
 
 export default function FarmForm() {
   const [farmsList, setFarmsList] = useState([]);
@@ -9,12 +10,28 @@ export default function FarmForm() {
     e.preventDefault();
   };
 
+  const loadFarms = async () => {
+    const { data: { items = [] } } = await api.get('/farm');
+    setFarmsList(items);
+  };
+
   const handleFiles = (e) => {
     const [file] = e.target.files;
-    loadCsv(file, (lines) => {
-      setFarmsList(lines.filter(([id]) => !!id && id !== 'farm_id'));
+    loadCsv(file, async (lines) => {
+      const linesFiltered = lines
+        .filter(([id]) => !!id && id !== 'farm_id')
+        .map((data) => parseFramToObject(data));
+
+      const promises = linesFiltered.map(async (data) => api.post('/farm', data));
+      await Promise.all(promises);
+
+      loadFarms();
     });
   };
+
+  useEffect(() => {
+    loadFarms();
+  }, []);
 
   return (
     <form className="farm-form" onSubmit={handleSubmit}>

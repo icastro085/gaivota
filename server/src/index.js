@@ -5,6 +5,8 @@ const cors = require('cors');
 const morgan = require('morgan');
 const User = require('./model/User');
 
+const farmRoute = require('./routes/farm');
+
 const { PORT, JWT_PW } = process.env;
 
 const mongoose = require('./config/mongoose');
@@ -51,9 +53,7 @@ app.get('/auth', (req, res) => {
   }
 });
 
-app.get('/', (req, res) => {
-  res.status(200).send('Gaivota Test');
-});
+app.use('/api/farm', farmRoute);
 
 app.listen(PORT || 5000, () => {
   const { warn } = console;

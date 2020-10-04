@@ -5,7 +5,7 @@ export default function FarmFormTable({
 }) {
   if (!farmsList.length) {
     return (
-      <p className="warning">
+      <p>
         Nenhuma fazenda!
       </p>
     );
@@ -30,8 +30,9 @@ export default function FarmFormTable({
         </thead>
         <tbody>
           {
-            farmsList.map(([
-              id,
+            farmsList.map(({
+              _id,
+              farmId,
               name,
               latitude,
               longitude,
@@ -40,9 +41,9 @@ export default function FarmFormTable({
               totalArea,
               yieldEstimation,
               price,
-            ]) => (
-              <tr key={id}>
-                <td>{id}</td>
+            }) => (
+              <tr key={_id} data-id={_id}>
+                <td>{farmId}</td>
                 <td>{name}</td>
                 <td>{latitude}</td>
                 <td>{longitude}</td>
