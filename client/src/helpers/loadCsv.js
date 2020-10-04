@@ -1,15 +1,26 @@
 const DEFAULT_SEPARATOR = ',';
+const { log } = console;
 
 function processData(csv) {
   const allTextLines = csv.split(/\r\n|\n/);
   const lines = [];
 
   for (let i = 0; i < allTextLines.length; i += 1) {
-    const data = allTextLines[i].split(DEFAULT_SEPARATOR);
+    const data = allTextLines[i]
+      .replace(/(\d+)+,(\d+)+/g, '$1.$2')
+      .split(DEFAULT_SEPARATOR);
+
     const tarr = [];
+    let value;
 
     for (let j = 0; j < data.length; j += 1) {
-      tarr.push(data[j]);
+      value = data[j].replace(/^["]|["]$/g, '');
+      // eslint-disable-next-line no-restricted-globals
+      if (!isNaN(Number(value))) {
+        value = Number(value);
+      }
+
+      tarr.push(value);
     }
 
     lines.push(tarr);
@@ -27,7 +38,7 @@ function loadHandler(event, callback) {
 
 function errorHandler(evt) {
   if (evt.target.error.name === 'NotReadableError') {
-    console.log('Canno\'t read file !');
+    log('Canno\'t read file !');
   }
 }
 

@@ -1,3 +1,5 @@
+const { log } = console;
+
 function loadHandler(event, callback) {
   const text = event.target.result;
   callback(text);
@@ -5,7 +7,7 @@ function loadHandler(event, callback) {
 
 function errorHandler(evt) {
   if (evt.target.error.name === 'NotReadableError') {
-    console.log('Canno\'t read file !');
+    log('Canno\'t read file !');
   }
 }
 

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { authenticate } from '../../auth';
 
+const { error } = console;
+
 const Login = () => {
   const history = useHistory();
   const [loginForm, setLoginForm] = useState({
@@ -43,9 +45,9 @@ const Login = () => {
       } else {
         throw new Error('Invalid login');
       }
-    } catch (error) {
+    } catch (err) {
       setIsErrorLogin(true);
-      console.error(error.message);
+      error(err.message);
     }
   };
 
