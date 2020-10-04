@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const FarmNdvi = require('../model/FarmNdvi');
+const FarmPrecipitation = require('../model/FarmPrecipitation');
 
 const router = new Router({ mergeParams: true });
 
@@ -7,7 +7,7 @@ router.post('/batch-insert', async (req, res) => {
   try {
     const data = req.body;
 
-    await FarmNdvi.insertMany(data);
+    await FarmPrecipitation.insertMany(data);
 
     res.status(200).send({
       status: 'ok',
@@ -25,7 +25,7 @@ router.post('/batch-delete', async (req, res) => {
       .filter(({ farmId }) => !!farmId);
 
     if (query.length) {
-      await FarmNdvi.deleteMany({ $or: query });
+      await FarmPrecipitation.deleteMany({ $or: query });
     }
 
     res.status(200).send({
@@ -40,7 +40,7 @@ router.post('/batch-delete', async (req, res) => {
 router.get('/:farmId', async (req, res) => {
   try {
     const { farmId } = req.params;
-    const items = await FarmNdvi.find({ farmId });
+    const items = await FarmPrecipitation.find({ farmId });
     res.status(200).send({
       items,
     });

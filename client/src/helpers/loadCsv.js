@@ -7,20 +7,13 @@ function processData(csv) {
 
   for (let i = 0; i < allTextLines.length; i += 1) {
     const data = allTextLines[i]
-      .replace(/(\d+)+,(\d+)+/g, '$1.$2')
+      .replace(/"(\d+)+,(\d+)+"/g, '$1.$2')
       .split(DEFAULT_SEPARATOR);
 
     const tarr = [];
-    let value;
 
     for (let j = 0; j < data.length; j += 1) {
-      value = data[j].replace(/^["]|["]$/g, '');
-      // eslint-disable-next-line no-restricted-globals
-      if (!isNaN(Number(value))) {
-        value = Number(value);
-      }
-
-      tarr.push(value);
+      tarr.push(data[j]);
     }
 
     lines.push(tarr);

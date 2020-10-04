@@ -2,7 +2,7 @@ import React from 'react';
 import { loadCsv } from '../../helpers';
 import api from '../../facades/api';
 
-export default function FarmFormNdvi() {
+export default function FarmFormPrecipitation() {
   const handleSubmit = (e) => {
     e.preventDefault();
   };
@@ -31,9 +31,9 @@ export default function FarmFormNdvi() {
           }));
         }).flat();
 
-        const ndviRemove = components.map((farmId) => ({ farmId }));
-        await api.post('/farm-ndvi/batch-delete', ndviRemove);
-        await api.post('/farm-ndvi/batch-insert', data);
+        const precipitationRemove = components.map((farmId) => ({ farmId }));
+        await api.post('/farm-precipitation/batch-delete', precipitationRemove);
+        await api.post('/farm-precipitation/batch-insert', data);
         // TODO: mostra um feeback
       });
     }
@@ -41,11 +41,11 @@ export default function FarmFormNdvi() {
 
   return (
     <form className="farm-form" onSubmit={handleSubmit}>
-      <h3>NDVI</h3>
+      <h3>Precipitação</h3>
       <hr />
       <div className="row">
         <div className="col-5">
-          <label>Importa NDVI a partir do CSV:</label>
+          <label>Importa precipitação a partir do CSV:</label>
           <input type="file" onChange={handleFiles} accept=".csv" />
         </div>
       </div>
