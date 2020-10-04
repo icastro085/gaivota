@@ -1,4 +1,5 @@
 export { default as loadCsv } from './loadCsv';
+export { default as readAsText } from './readAsText';
 
 export const parseFramToObject = ([
   farmId,

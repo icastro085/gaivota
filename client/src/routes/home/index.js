@@ -5,21 +5,43 @@ import api from '../../facades/api';
 
 export default function Home() {
   const [selectedFarm, setSelectedFarm] = useState({});
+  const [selectedFarmGeoJson, setSelectedFarmGeoJson] = useState(null);
   const [farmsList, setFarmsList] = useState([]);
   const itemsFarm = farmsList.map(({ farmId, name }) => ({
     id: farmId,
     value: name,
   }));
 
-  const onChangeFarm = (farmId) => {
-    console.log(farmId);
+  const getSelectedFarm = (farmId) => (
+    farmsList.find(({ farmId: id }) => id === farmId)
+  );
+
+  const getSelectedGeoJson = async (farmId) => {
+    const { data: { data: farmGeoJson } } = await api.get(`/farm-geo-json/${farmId}`);
+    return farmGeoJson;
+  };
+
+  const onChangeFarm = async (farmId) => {
+    if (farmsList.length) {
+      const selectedFarmUpdated = getSelectedFarm(farmId);
+      const selectedFarmGeoJsonUpdated = await getSelectedGeoJson(farmId);
+
+      setSelectedFarm(selectedFarmUpdated);
+      setSelectedFarmGeoJson(selectedFarmGeoJsonUpdated);
+    }
   };
 
   useEffect(() => {
     const loadFarms = async () => {
-      const { data: { items = [] } } = await api.get('/farm');
-      setFarmsList(items);
-      setSelectedFarm(items[0]);
+      const { data: { items = [] } = {} } = await api.get('/farm');
+      if (items && items.length) {
+        const selectedFarmUpdated = items[0];
+        const selectedFarmGeoJsonUpdated = await getSelectedGeoJson(selectedFarmUpdated.farmId);
+
+        setFarmsList(items);
+        setSelectedFarm(selectedFarmUpdated);
+        setSelectedFarmGeoJson(selectedFarmGeoJsonUpdated);
+      }
     };
 
     loadFarms();
@@ -28,7 +50,7 @@ export default function Home() {
   return (
     <div className="row map-container">
       <div className="col-8">
-        <LeafletMap />
+        <LeafletMap farm={selectedFarm} farmGeoJson={selectedFarmGeoJson} />
       </div>
       <div className="col-4 search-container">
         <form>

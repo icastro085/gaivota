@@ -56,7 +56,7 @@ export const isAuthenticated = async () => {
         const userData = await __requestServer({ method: 'GET', url: 'auth' });
         return userData;
       } catch (e) {
-        localStorage.removeItem('token');
+        // localStorage.tem('token');
         return Promise.reject();
       }
     }

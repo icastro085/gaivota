@@ -6,6 +6,7 @@ const morgan = require('morgan');
 const User = require('./model/User');
 
 const farmRoute = require('./routes/farm');
+const farmGeoJsonRoute = require('./routes/farmGeoJson');
 
 const { PORT, JWT_PW } = process.env;
 
@@ -54,6 +55,8 @@ app.get('/auth', (req, res) => {
 });
 
 app.use('/api/farm', farmRoute);
+app.use('/api/farm-geo-json', farmGeoJsonRoute);
+
 
 app.listen(PORT || 5000, () => {
   const { warn } = console;

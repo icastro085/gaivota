@@ -1,4 +1,5 @@
 import React from 'react';
+import FarmFormTableRow from './FarmFormTableRow';
 
 export default function FarmFormTable({
   farmsList = [],
@@ -26,33 +27,14 @@ export default function FarmFormTable({
             <th>Área Total</th>
             <th>Estimativa de Rendimento</th>
             <th>Preço</th>
+            <th>GeoJSON</th>
           </tr>
         </thead>
         <tbody>
           {
-            farmsList.map(({
-              _id,
-              farmId,
-              name,
-              latitude,
-              longitude,
-              culture,
-              variety,
-              totalArea,
-              yieldEstimation,
-              price,
-            }) => (
-              <tr key={_id} data-id={_id}>
-                <td>{farmId}</td>
-                <td>{name}</td>
-                <td>{latitude}</td>
-                <td>{longitude}</td>
-                <td>{culture}</td>
-                <td>{variety}</td>
-                <td>{totalArea}&nbsp;ha</td>
-                <td>{yieldEstimation}&nbsp;ton/ha</td>
-                <td>{price}</td>
-              </tr>
+            farmsList.map((farm) => (
+              // eslint-disable-next-line react/jsx-props-no-spreading
+              <FarmFormTableRow key={farm._id} {...farm} />
             ))
           }
         </tbody>

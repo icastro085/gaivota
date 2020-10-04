@@ -37,7 +37,7 @@ const Login = () => {
 
       // Here you can store the userData in any way
       const userData = await authenticate(email, password);
-      console.log(userData);
+
       if (userData) {
         history.push('/app/home');
       } else {
