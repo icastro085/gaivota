@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Select from '../../components/Select';
 import LeafletMap from '../../components/LeafletMap';
+import FarmSelected from './FarmSelected';
 import api from '../../facades/api';
 
 export default function Home() {
@@ -68,6 +69,8 @@ export default function Home() {
               )
               : null
           }
+
+          <FarmSelected selectedFarm={selectedFarm} />
         </form>
       </div>
     </div>
