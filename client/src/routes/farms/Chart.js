@@ -90,7 +90,6 @@ export default function Chart() {
         .map((date) => (new Date(date)).getFullYear())
         .filter((value, index, self) => self.indexOf(value) === index);
 
-      console.log(data);
       setYearList(years);
       setSelectedYear(years[0]);
     };
@@ -191,16 +190,14 @@ export default function Chart() {
                       data={data}
                       width={100}
                       height={500}
-                      options={options}
-                    />
+                      options={options} />
                   )
                   : (
                     <Line
                       data={data}
                       width={100}
                       height={500}
-                      options={options}
-                    />
+                      options={options} />
                   )
               }
             </div>

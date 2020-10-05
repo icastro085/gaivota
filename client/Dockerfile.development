@@ -7,4 +7,4 @@ COPY package.json ./
 RUN npm i
 VOLUME [ "/home/node/app/node_modules" ]
 
-EXPOSE 5000
+EXPOSE 5001
