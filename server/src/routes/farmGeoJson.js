@@ -1,5 +1,4 @@
 const { Router } = require('express');
-const { param } = require('..');
 const FarmGeoJSON = require('../model/FarmGeoJSON');
 
 const router = new Router({ mergeParams: true });

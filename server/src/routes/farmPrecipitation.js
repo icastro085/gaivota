@@ -32,7 +32,6 @@ router.post('/batch-delete', async (req, res) => {
       status: 'ok',
     });
   } catch (e) {
-    console.log(e.message);
     res.status(500).send('Internal error server');
   }
 });

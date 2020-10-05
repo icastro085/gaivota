@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+
 const { Schema } = mongoose;
 
 const FarmGeoJSON = new Schema({
@@ -6,7 +7,7 @@ const FarmGeoJSON = new Schema({
   type: String,
   crs: {
     type: { type: String },
-    properties: { name: String }
+    properties: { name: String },
   },
   features: [
     {

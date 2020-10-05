@@ -7,6 +7,7 @@ const { log } = console;
 module.exports = {
   async connect() {
     try {
+      // TODO: mover as configurações do mongo para um arquido de configurações
       await mongoose.connect('mongodb://mongo:27017/gaivota-test', {
         useNewUrlParser: true,
         useUnifiedTopology: true,
