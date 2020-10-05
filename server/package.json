@@ -4,8 +4,7 @@
   "private": true,
   "license": "SEE LICENSE IN gaivota.ai/license",
   "scripts": {
-    "docker": "docker run -p 27017:27017 -d mongo && docker ps",
-    "dev": "clear && nodemon -r dotenv/config ./src/index.js ",
+    "dev": "nodemon -r dotenv/config ./src/index.js --exec \"npm run lint && node\"",
     "lint": "eslint ./src --fix",
     "start": "node ./src/index.js"
   },

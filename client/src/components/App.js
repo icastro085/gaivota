@@ -49,6 +49,7 @@ const App = () => {
           <Switch>
             <Route exact path="/home" component={Home} />
             <Route exact path="/login" component={Login} />
+            {/* TODO: adicionar um link visível para o farms */}
             <Route exact path="/farms" component={Farms} />
             <Redirect from="/" to="/home" />;
           </Switch>
