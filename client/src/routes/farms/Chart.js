@@ -45,12 +45,12 @@ export default function Chart() {
   const [farmsList, setFarmsList] = useState([]);
   const [chartData, setChartData] = useState({});
   const [selectedFarm, setSelectedFarm] = useState({});
+  const [yearList, setYearList] = useState([]);
+  const [selectedYear, setSelectedYear] = useState({});
 
   const onChangeItem = (selectedId) => {
     const item = chartSelector.options.find(({ id }) => id === selectedId);
     setSeletectedItem(item);
-
-    console.log(item);
   };
 
   const getSelectedFarm = (farmId) => (
@@ -62,6 +62,10 @@ export default function Chart() {
       const selectedFarmUpdated = getSelectedFarm(farmId);
       setSelectedFarm(selectedFarmUpdated);
     }
+  };
+
+  const onChangeYear = (year) => {
+    setSelectedYear(year);
   };
 
   useEffect(() => {
@@ -78,7 +82,17 @@ export default function Chart() {
     const loadContent = async () => {
       const endpoint = selectedItem.id === 0 ? '/farm-ndvi' : 'farm-precipitation';
       const { data: { items = [] } } = await api.get(`${endpoint}/${selectedFarm.farmId}`);
-      setChartData(reduceData(items));
+      // TODO: melhora filtro para um período
+      const data = reduceData(items);
+      setChartData(data);
+
+      const years = Object.keys(data)
+        .map((date) => (new Date(date)).getFullYear())
+        .filter((value, index, self) => self.indexOf(value) === index);
+
+      console.log(data);
+      setYearList(years);
+      setSelectedYear(years[0]);
     };
 
     if (selectedFarm.farmId) {
@@ -86,8 +100,13 @@ export default function Chart() {
     }
   }, [selectedItem.id, selectedFarm.farmId]);
 
-  const chartLabels = Object.keys(chartData);
-  const chartDataItems = Object.values(chartData).map((value) => parseFloat(value).toFixed(2));
+  const chartLabels = Object
+    .keys(chartData)
+    .filter((date) => (new Date(date)).getFullYear() === selectedYear);
+  const chartDataItems = Object
+    .keys(chartData)
+    .filter((date) => (new Date(date)).getFullYear() === selectedYear)
+    .map((date) => parseFloat(chartData[date]).toFixed(2));
   const data = {
     labels: chartLabels,
     datasets: [
@@ -98,9 +117,21 @@ export default function Chart() {
     ],
   };
 
+  if (chartDataItems.length === 1) {
+    chartLabels.unshift('');
+    chartLabels.push('');
+    chartDataItems.unshift('');
+    chartDataItems.push('');
+  }
+
   const itemsFarm = farmsList.map(({ farmId, name }) => ({
     id: farmId,
     value: name,
+  }));
+
+  const yearItems = yearList.map((year) => ({
+    id: year,
+    value: year,
   }));
 
   return (
@@ -128,6 +159,21 @@ export default function Chart() {
                     value={selectedFarm.farmId}
                     onChange={onChangeFarm}>
                     Fazenda
+                  </Select>
+                )
+                : null
+            }
+          </div>
+
+          <div className="col-2">
+            {
+              yearItems.length
+                ? (
+                  <Select
+                    items={yearItems}
+                    value={selectedYear}
+                    onChange={onChangeYear}>
+                    Ano
                   </Select>
                 )
                 : null
