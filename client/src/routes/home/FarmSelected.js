@@ -5,8 +5,8 @@ export default function FarmSelected({
     name,
     culture,
     variety,
-    totalArea,
-    yieldEstimation,
+    totalArea = 0,
+    yieldEstimation = 0,
     price,
   } = {},
 }) {

@@ -72,7 +72,7 @@ export default function Chart() {
     const loadFarms = async () => {
       const { data: { items = [] } } = await api.get('/farm');
       setFarmsList(items);
-      setSelectedFarm(items[0]);// leave it as default
+      setSelectedFarm(items[0] || {});// leave it as default
     };
 
     loadFarms();
