@@ -49,4 +49,15 @@ router.get('/:farmId', async (req, res) => {
   }
 });
 
+router.get('/', async (req, res) => {
+  try {
+    const items = await FarmNdvi.find();
+    res.status(200).send({
+      items,
+    });
+  } catch (e) {
+    res.status(500).send('Internal error server');
+  }
+});
+
 module.exports = router;

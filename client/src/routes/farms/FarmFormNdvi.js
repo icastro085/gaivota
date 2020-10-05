@@ -42,7 +42,7 @@ export default function FarmFormNdvi() {
   return (
     <form className="farm-form" onSubmit={handleSubmit}>
       <h3>NDVI</h3>
-      <hr />
+      <hr className="title-separator" />
       <div className="row">
         <div className="col-5">
           <label>Importa NDVI a partir do CSV:</label>

@@ -2,6 +2,10 @@
   #{$border-prop}: 1px solid $border-color;
 }
 
+.title-separator {
+  opacity: .2;
+}
+
 .hidden {
   visibility: hidden;
 }

@@ -36,7 +36,7 @@ export default function FarmForm() {
   return (
     <form className="farm-form" onSubmit={handleSubmit}>
       <h3>Fazendas</h3>
-      <hr />
+      <hr className="title-separator" />
       <div className="row">
         <div className="col-5">
           <label>Importa fazendas a partir do CSV:</label>

@@ -42,7 +42,7 @@ export default function FarmFormPrecipitation() {
   return (
     <form className="farm-form" onSubmit={handleSubmit}>
       <h3>Precipitação</h3>
-      <hr />
+      <hr className="title-separator" />
       <div className="row">
         <div className="col-5">
           <label>Importa precipitação a partir do CSV:</label>
