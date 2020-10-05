@@ -1,14 +1,17 @@
-import React, { useState } from "react";
-import { withRouter } from "react-router-dom";
-import { authenticate } from "../../auth";
-import { PropTypes } from "prop-types";
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { authenticate } from '../../auth';
 
-const Login = props => {
-  const { history } = props;
+const { error } = console;
+
+const Login = () => {
+  const history = useHistory();
   const [loginForm, setLoginForm] = useState({
-    email: "",
-    password: ""
+    email: '',
+    password: '',
   });
+
+  const [isErrorLogin, setIsErrorLogin] = useState(false);
 
   /**
    * Handle the input change and changes the form state
@@ -16,7 +19,7 @@ const Login = props => {
    * @param {String} key - Form field key
    * @returns {Function} On change event handler
    */
-  const handleChange = key => ({ target }) => {
+  const handleChange = (key) => ({ target }) => {
     setLoginForm({ ...loginForm, [key]: target.value });
   };
 
@@ -25,43 +28,51 @@ const Login = props => {
    * @function handleSubmit
    * @param {Event} e - Submit event
    */
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     e.stopPropagation();
+
     const { email, password } = loginForm;
+
     try {
+      setIsErrorLogin(false);
+
       // Here you can store the userData in any way
       const userData = await authenticate(email, password);
-      console.log(userData);
-      history.push("/app/home");
-    } catch (e) {
-      console.error(e);
+
+      if (userData) {
+        history.push('/app/home');
+      } else {
+        throw new Error('Invalid login');
+      }
+    } catch (err) {
+      setIsErrorLogin(true);
+      error(err.message);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="login-form" onSubmit={handleSubmit}>
+      <p className={`error ${isErrorLogin ? '' : 'hidden'}`}>
+        Erro de autenticação: email ou senha inválido
+      </p>
+
       <input
         name="email"
         type="input"
-        onChange={handleChange("email")}
+        onChange={handleChange('email')}
         value={loginForm.email}
-        placeholder="admin@gaivota.ai"
-      />
+        placeholder="Email - ex.:admin@gaivota.ai" />
       <input
         name="password"
         type="password"
-        onChange={handleChange("password")}
+        placeholder="Senha"
+        onChange={handleChange('password')}
         value={loginForm.password}
-        autoComplete="off"
-      />
-      <button type="submit">Login</button>
+        autoComplete="off" />
+      <button type="submit">Autenticar</button>
     </form>
   );
 };
 
-Login.propTypes = {
-  history: PropTypes.object
-};
-
-export default withRouter(Login);
+export default Login;

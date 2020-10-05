@@ -1,63 +1,62 @@
-import React, { useState, useEffect } from "react";
-import { Route, Redirect, withRouter } from "react-router-dom";
-import { isAuthenticated } from "../auth";
-import Home from "../routes/home/";
-import Login from "../routes/login/";
-import { PropTypes } from "prop-types";
+import React, { useState, useEffect } from 'react';
+import {
+  BrowserRouter as Router,
+  Route,
+  Redirect,
+  Switch,
+  useLocation,
+} from 'react-router-dom';
+import { isAuthenticated } from '../auth';
 
-const App = props => {
-  const { location, match } = props;
+import Header from './Header';
+import Home from '../routes/home';
+import Login from '../routes/login';
+import Farms from '../routes/farms';
+
+const App = () => {
+  const location = useLocation();
   const [logged, setLogged] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  /**
-   * Authenticates user and set state variables
-   * @function authUser
-   */
-  const authUser = async () => {
-    try {
-      await isAuthenticated();
-      setLogged(true);
-      setLoading(false);
-    } catch (err) {
-      setLogged(true);
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    authUser();
+    const checkAuth = async () => {
+      try {
+        await isAuthenticated();
+        setLogged(true);
+        setLoading(false);
+      } catch (err) {
+        setLogged(false);
+        setLoading(false);
+      }
+    };
+
+    checkAuth();
   }, []);
 
-  if (loading) return null;
+  if (loading) {
+    return null;
+  }
 
-  const isRoot =
-    location.pathname === "" ||
-    location.pathname === "/" ||
-    location.pathname === "/app" ||
-    location.pathname === "/app/";
-
-  if (!logged && location.pathname.indexOf("login") === -1) {
+  if (!logged && location.pathname.indexOf('login') === -1) {
     return <Redirect to="/login" />;
   }
 
-  if (isRoot) {
-    return <Redirect to="/app/home" />;
-  }
-
   return (
-    <div className="App">
-      <header className="App-header">
-        <Route path={`${match.url}app/home`} component={Home} />
-        <Route path={`${match.url}login`} component={Login} />
-      </header>
-    </div>
+    <Router>
+      <div className="app">
+        <Header />
+        <div className="container">
+          <Switch>
+            <Route exact path="/home" component={Home} />
+            <Route exact path="/login" component={Login} />
+            {/* TODO: adicionar um link visível para o farms */}
+            <Route exact path="/farms" component={Farms} />
+            <Redirect from="/" to="/home" />;
+          </Switch>
+        </div>
+      </div>
+    </Router>
   );
 };
 
-App.propTypes = {
-  location: PropTypes.object,
-  match: PropTypes.object
-};
-
-export default withRouter(App);
+export default App;

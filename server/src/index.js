@@ -1,17 +1,27 @@
-const express = require("express");
-const body_parser = require("body-parser");
-const jwt = require("jsonwebtoken");
-const cors = require("cors");
+const express = require('express');
+const bodyParser = require('body-parser');
+const jwt = require('jsonwebtoken');
+const cors = require('cors');
+const morgan = require('morgan');
+const User = require('./model/User');
+
+const farmRoute = require('./routes/farm');
+const farmGeoJsonRoute = require('./routes/farmGeoJson');
+const farmNdviRoute = require('./routes/farmNdvi');
+const farmPrecipitationRoute = require('./routes/farmPrecipitation');
 
 const { PORT, JWT_PW } = process.env;
-const mongo = require("../config/mongo");
+
+const mongoose = require('./config/mongoose');
+
 const app = express();
 
-mongo.connectToServer();
+mongoose.connect();
 
 app.use(cors());
-app.use(body_parser.json());
-app.use(body_parser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(morgan('combined'));
 
 /**
  * Login route
@@ -19,27 +29,41 @@ app.use(body_parser.urlencoded({ extended: true }));
  * @param {String} password - Password of login user
  * @return {String} token
  */
-app.post("/login", async (req, res) => {
-	const { email, password } = req.body;
-	const db = mongo.getDb();
-	const user = await db.collection("user").findOne({ email, password });
-	const token = jwt.sign(user, JWT_PW);
-	res.status(200).send({ userData: user, token });
+app.post('/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email, password });
+
+    if (!user) {
+      throw new Error('Login error: email or password is invalid');
+    }
+
+    const token = jwt.sign(user.toJSON(), JWT_PW);
+    res.status(200).send({ user, token });
+  } catch (e) {
+    res.status(401).send({ error: e.message });
+  }
 });
 
-app.get("/auth", (req, res) => {
-	let token = req.header("Authorization");
-	token = token.split(" ")[1];
-	const ok = jwt.verify(token, JWT_PW);
-	res.status(200).send(ok);
+app.get('/auth', (req, res) => {
+  try {
+    const authorization = req.header('Authorization') || '';
+    const [, token] = authorization.split(' ');
+    const ok = jwt.verify(token, JWT_PW);
+    res.status(200).send(ok);
+  } catch (e) {
+    res.status(500).send({ error: e.message });
+  }
 });
 
-app.get("/", (req, res) => {
-	res.status(200).send("Gaivota Test");
-});
+app.use('/api/farm', farmRoute);
+app.use('/api/farm-geo-json', farmGeoJsonRoute);
+app.use('/api/farm-ndvi', farmNdviRoute);
+app.use('/api/farm-precipitation', farmPrecipitationRoute);
 
-app.listen(PORT !== "undefined" ? PORT : 5000, () => {
-	console.warn("App is running at http://localhost:" + PORT);
+app.listen(PORT || 5000, () => {
+  const { warn } = console;
+  warn(`App is running at http://localhost:${PORT}`);
 });
 
 module.exports = app;

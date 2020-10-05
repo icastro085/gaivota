@@ -7,30 +7,25 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ### 1. Pre-requisites
 
-- [NodeJs](https://nodejs.org/en/) - Server side environment
-- [NPM](https://npmjs.org/) - Node manager package
-- (Optional) [Yarn](https://yarnpkg.com/lang/en/) - Node manager package alternative
+- [Docker](hhttps://docs.docker.com/)
+- [Dcoker Compse](https://docs.docker.com/compose/install/)
 - Cloning this repo
 ```
  $ git clone git@github.com:gaivota-ai/gaivota-full-stack-test.git
 ```
 
-### 2. Front
+### 2. Build the project
 
 ```
- $ cd client
- $ npm install || yarn
- $ npm start   || yarn start
+ $ make build
 ```
 
-- Access: http://localhost:3000
 
-### 3. Back
+
+### 3. Start the project
 
 ```
- $ cd server
- $ npm install || yarn
- $ npm run dev || yarn dev
+ $ make start
 ```
 
-- Access: http://localhost:5000
+- Access: http://localhost:5001

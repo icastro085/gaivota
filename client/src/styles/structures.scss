@@ -1,0 +1,73 @@
+@mixin border($border-color: $color6, $border-prop: border) {
+  #{$border-prop}: 1px solid $border-color;
+}
+
+.title-separator {
+  opacity: .2;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.error {
+  color: #dc3545!important;
+}
+
+.warning {
+  color: #ffc107!important;
+}
+
+.container {
+  max-width: 1020px;
+  margin: 0 auto;
+}
+
+hr {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+
+  th, td {
+    padding: $padding-base;
+    text-align: left;
+  }
+
+  th {
+    border-top: 1px solid #f2f2f2;
+    border-bottom: 1px solid #f2f2f2;
+  }
+
+  & button {
+    font-size: 12px;
+  }
+}
+
+ul, li {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -$padding-base;
+  margin-right: -$padding-base;
+}
+
+@for $i from 1 through $max-columns {
+  .col-#{$i} {
+    width: 100% / ($max-columns / $i);
+    padding-left: $padding-base;
+    padding-right: $padding-base;
+  }
+}

@@ -1,0 +1,40 @@
+$color1: #428DE0;
+$color2: #0266B7;
+$color3: #00358F;
+$color4: #f2f2f2;
+$color5: #999;
+$color6: #ccc;
+$max-columns: 12;
+$padding-base: 10px;
+
+html, body {
+  margin: 0;
+  padding: 0;
+
+  * {
+    box-sizing: border-box;
+  }
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+@import "structures";
+@import "header";
+@import "form";
+@import "select";
+@import "login";
+@import "leaflet";
+@import "farm";
+@import "map-home";
